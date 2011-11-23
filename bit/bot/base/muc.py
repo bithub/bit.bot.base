@@ -1,4 +1,7 @@
 
+from zope.component import getUtility
+
+from bit.bot.common.interfaces import IConfiguration
 
 
 from twisted.words.protocols.jabber import jid
@@ -12,8 +15,10 @@ class MUCBot(muc.MUCClient):
         muc.MUCClient.__init__(self)
         self.server   = server
         self.ai = ai
-        self.room = 'office'
-        self.nick = 'curate'
+
+        config = getUtility(IConfiguration)
+        self.room = config.get('bot', 'room')
+        self.nick = config.get('bot', 'name')
         self.room_jid = jid.internJID(self.room+'@'+self.server)
         self.last = {}
         self.activity = None
