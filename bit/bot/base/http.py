@@ -11,7 +11,7 @@ class BitBotHTTP(Resource):
     
     def render_GET(self, request):
         config = getUtility(IConfiguration)
-        return "<html><body style='background: url(%s) no-repeat 50% 50%; width: 100%; height: 100%; margin:0; padding: 0'></body></html>" %config.get('bot','image')
+        return "<html><body style='background: url(%s) no-repeat 50%% 50%%; width: 100%%; height: 100%%; margin:0; padding: 0'></body></html>" %config.get('bot','image')
 
     def getChild(self,name,request):
         config = getUtility(IConfiguration)
