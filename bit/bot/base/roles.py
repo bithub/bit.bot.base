@@ -17,7 +17,8 @@ def _asker(jid):
 def roles(*role_list):
     roles = getUtility(IRoles)
     members = getUtility(IMembers)
-
+    config = getUtility(IConfiguration)
+    jid_domain = config.get('bot', 'domain')
     def check_roles(func):
         def wrapped(*la,**kwa):
             def _gotRoles(roles,role_list):
@@ -32,7 +33,10 @@ def roles(*role_list):
                     la[0].speak(la[2],"i'm sorry i can't answer that for you", la[0]._asker(la[2]))
             def _gotMember(member,role_list):
                 return roles.member_roles(member).addCallback(_gotRoles,role_list)
-            return members.member(la[0]._asker(la[2])).addCallback(_gotMember,role_list)
+
+            # this is still pretty bad
+            if jid_domain in la[2]:
+                return members.member(la[0]._asker(la[2])).addCallback(_gotMember,role_list)
         return wrapped
     return check_roles
 

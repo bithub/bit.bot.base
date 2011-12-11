@@ -1,8 +1,9 @@
 import os
 from zope.component import getUtility
-from twisted.web import static
+from twisted.web import static, proxy
 from twisted.web.resource import Resource
 from bit.bot.common.interfaces import IConfiguration
+
 
 class BitBotHTTP(Resource):
     def __init__(self,app):
@@ -17,5 +18,10 @@ class BitBotHTTP(Resource):
         config = getUtility(IConfiguration)
         if name == '':
             return self
+        if name == 'desktop':
+            return BitBotVNCHTTP(self.app)
+                                                     
         if name == config.get('bot','image'):
             return static.File(os.path.join(os.path.dirname(__file__),'html',name))
+
+
