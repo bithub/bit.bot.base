@@ -1,27 +1,60 @@
 import os
+from zope.interface import implements
 from zope.component import getUtility
-from twisted.web import static, proxy
+from twisted.web import static
 from twisted.web.resource import Resource
-from bit.bot.common.interfaces import IConfiguration
+from bit.bot.common.interfaces import IConfiguration, IHTMLResources, IJPlates, IWebImages, IWebCSS, IWebJS, IWebHTML, IWebJPlates, IWebFolder
 
+class BitBotResource(Resource):
+
+    def __init__(self):
+        Resource.__init__(self)
+
+    def render_GET(self, request):
+        return "<dl>%s</dl>" %''.join(["<dt>%s</dt><dd>%s</dd>"%(k,v) for k,v in self.children.items()])
+
+class BitBotCSS(BitBotResource):
+    implements(IWebCSS)
+
+class BitBotResourceFolder(BitBotResource):
+    implements(IWebFolder)
+
+class BitBotJS(BitBotResource):
+    implements(IWebJS)
+
+class BitBotImages(BitBotResource):
+    implements(IWebImages)
+
+class BitBotHTML(BitBotResource):
+    implements(IWebHTML)
+
+class BitBotJPlates(BitBotResource):
+    implements(IWebJPlates)
 
 class BitBotHTTP(Resource):
-    def __init__(self,app):
-        Resource.__init__(self)
-        self.app = app        
-    
+
     def render_GET(self, request):
-        config = getUtility(IConfiguration)
-        return "<html><body style='background: url(%s) no-repeat 50%% 50%%; width: 100%%; height: 100%%; margin:0; padding: 0'></body></html>" %config.get('bot','image')
+        html = getUtility(IWebHTML)
+        return html.children['bot.html'].render_GET(request)
 
     def getChild(self,name,request):
-        config = getUtility(IConfiguration)
+
         if name == '':
             return self
-        if name == 'desktop':
-            return BitBotVNCHTTP(self.app)
-                                                     
-        if name == config.get('bot','image'):
-            return static.File(os.path.join(os.path.dirname(__file__),'html',name))
+
+        if name == 'images':
+            return getUtility(IWebImages)
+
+        if name == 'js':
+            return getUtility(IWebJS)
+
+        if name == 'css':
+            return getUtility(IWebCSS)
+
+        if name == 'jplates':
+            return getUtility(IWebJPlates)
+
+        if name == '_html':
+            return getUtility(IWebHTML)
 
 

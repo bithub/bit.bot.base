@@ -1,12 +1,12 @@
 
 
 from zope.interface import implements
-from zope.component import getGlobalSiteManager
+from zope.component import getGlobalSiteManager, getUtility
 from twisted.words.xish import domish
 
 from ldaptor.interfaces import ILDAPEntry
 
-from bit.bot.common.interfaces import IGroups, IMember, IGroup
+from bit.bot.common.interfaces import IGroups, IMember, IGroup, IIntelligent, ISessions, IConfiguration
 
 from wokkel.xmppim import MessageProtocol, AvailablePresence
 
@@ -33,7 +33,12 @@ class BitBotRequest(object):
         def _respond(response):
             if response:
                 self.proto.speak(msg['from'],response)         
-        ask = self.proto.ai.respond(body,mfrom)
+        
+        domain = getUtility(IConfiguration).get('bot','domain')
+        if domain == mfrom.split('/')[0].split('@')[1]:
+            getUtility(IIntelligent).bot.setPredicate('secure','yes',mfrom)
+
+        ask = getUtility(IIntelligent).respond(body,mfrom)
         ask.addCallback(_respond)
         return ask
 
