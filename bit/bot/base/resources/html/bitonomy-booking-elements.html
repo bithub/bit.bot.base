@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15">
+    <title></title>
+  </head>
+  <body>
+    <div class="template" id="visual-clear">
+      <div class="clear" />
+    </div> 
+    
+    <div class="template" id="macro-tabulated-list">
+      <ul class="${name} table" id=" ${id_}" />	
+    </div>
+
+    <div class="template" id="macro-tabulated-list-item">
+      <li class="${name} ${class_} item trow" id=" ${id_}">
+	{{each keys}}
+	<span class="${$value} tcell" />
+	{{/each}}
+      </li>
+    </div>
+    
+    <div class="template" id="macro-linked-list-item">
+      <li class="${name}" id=" ${id_}" >
+	<a href=""></a>
+      </li>
+    </div>
+    
+  </body> 
+</html>

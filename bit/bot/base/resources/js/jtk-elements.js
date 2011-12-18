@@ -1,0 +1,266 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15">
+    <title></title>
+  </head>
+  <body>
+    <div class="template" id="visual-clear">
+      <div class="clear" />
+    </div> 
+    
+    <div class="template" id="macro-tabulated-list">
+      <ul class="${name} table" id=" ${id_}" />	
+    </div>
+    
+    <div class="template" id="macro-linked-list-item">
+      <li class="${name}" id=" ${id_}" >
+	<a href=""></a>
+      </li>
+    </div>
+    
+    <div class="template" id="widget-bit-markets">
+      <div class="bitonomyMarketsWidget widget">
+	<ul class="bitonomyMarkets" />
+      </div>
+    </div>
+    
+    <div class="template" id="panel-bit-markets">
+      <div id="${id_}" class="bitonomyMarkets panel ${name}">
+      </div>
+    </div>
+
+    <div class="template" id="panel-bit-market-activity">
+      <div id="${id_}" class="bitonomyMarketActivity panel">
+	<h2 class="title">Trade Activity</h2>
+      </div>
+    </div>
+
+    
+    <div class="template" id="panel-bit-market-account-exchanges">
+      <div id="${id_}" class="bitonomyMarketAccountExchangesWidget panel ${name}">
+	<ul class="bitonomyMarketAccountResources" /> 
+      </div>
+    </div>
+    
+    <div class="template" id="panel-bit-market-account-funds">
+      <div id="${id_}" class="marketAccountFundsPanel panel ${name}">
+	<ul class="marketAccounts" /> 
+      </div>
+    </div>
+
+
+    <div class="template" id="panel-bit-market-accounts">
+      <div id="${id_}" class="marketAccountsPanel panel">
+      </div>
+    </div>
+
+    <div class="template" id="widget-bit-market-accounts">
+      <div id="${id_}" class="marketAccountsWidget widget">
+	<h2 class="title">Market Accounts</h2>
+	<div class="bitonomyMarketAccounts" />
+      </div>
+    </div>
+
+
+    <div class="template" id="widget-bit-market-account-exchange">
+      <div id="${id_}" class="marketAccountExchangeWidget widget ${name}">
+	
+      </div>
+    </div>
+
+
+    <div class="template" id="widget-bit-market-account-exchange-title">
+      <li id="${id_}" class="marketAccountExchangeTitleWidget widget ${name}">
+	<a href_="#${href}">${title}</a></li>
+      </li>
+    </div>
+
+
+    <div class="template" id="widget-bit-market-accounts-list">
+      <div id="${id_}" class="marketAccountsListWidget widget ${name}">
+	<div class="accounts" />
+      </div>
+    </div>
+
+    <div class="template" id="widget-bit-market-menu-title">
+      <h3 class="${name} marketMenuTitleWidget title">${market}</h3>
+    </div>
+
+    <div class="template" id="widget-bit-market-account-menu-title">
+      <h3 class="${name} title">${account}</h3>
+    </div>
+
+    <div class="template" id="widget-bit-market-account-menu">
+      <div id="${id_}" class="marketAccountMenuWidget widget ${name}">
+	<ul class="menu">
+	  {{each menu_items}}
+	  <li class="item"><a class="${$value}" href_="#">${$value}</a></a>
+	  {{/each}}
+	</ul>
+      </div>
+    </div>
+
+
+    <div class="template" id="widget-bit-market-account-funds">
+      <div class="marketAccountFundsWidget ${name}" id="${id_}" />
+    </div>
+    
+  
+    <div class="template" id="widget-bit-market-account-balance">
+      <div class="marketAccountBalanceWidget ${name}" id="${id_}">
+	<h1 class="title">${title}</h1>
+	<h2 class="balance"></h2>
+      </div>
+    </div>
+    
+    <div class="template" id="bit-market">
+      <li class="bitonomyMarket">
+	<div class="bitonomyMarketTitle">
+	  <a class="bitonomyMarketLink">${marketid}</a>
+	</div>
+	<div class="bitonomyTickers">
+	<ul class="bitonomyTickerTitles" />
+	</div>
+      </li>
+    </div>
+    
+    <div class="template" id="widget-bit-market-title">
+      <li class="bitonomyTicker">
+	<a href_="#${tickerid}">${title}</a>
+      </li>
+    </div>
+    
+    <div class="template" id="widget-bit-market">
+      <li class="bitonomyMarket ${name}">
+	<div class="sectionHeader">
+	  <div class="button"><a href="#">pop</a></div>
+	  <h2 class="title">${market}</h2>
+	</div>
+	<div class="bitMarketInfo">
+	  <ul class="exchanges">	  
+	</div>
+      </div>
+      </li>
+    </div>
+
+    <div class="template" id="widget-bit-market-exchange-title">
+      <li class="bitonomyMarketExchangeTitle ${name}">
+	<a href_="#${target}">${exchange}</a>
+      </li>
+    </div>
+
+    <div class="template" id="widget-bit-market-exchange-info">
+      <div class="bitonomyMarketExchangeInfo ${name}" id="${target}">	
+      </div>
+    </div>
+
+    <div class="template" id="widget-bit-market-exchange-ticker">
+      <div class="bitonomyMarketExchangeTicker">	
+	<div class="bitonomyTickerPrice bitonomyTickerBid bid">${bid}</div>
+	<div class="bitonomyTickerPrice bitonomyTickerLast .ast">${last}</div>
+	<div class="bitonomyTickerPrice bitonomyTickerAsk ask">${ask}</div>
+      </div>
+    </div>
+
+    <div class="template" id="widget-bit-market-exchange-orderbook">
+      <div class="bitonomyMarketExchangeOrderbook">	
+	<div class="offers">
+	  <h3>Offers</h3>
+	</div>
+	<div class="asks">
+	  <h3>Asks</h3>
+	</div>
+      </div>
+    </div>
+
+    <div class="template" id="widget-bit-market-exchange-trades">
+      <div class="bitonomyMarketExchangeTrades">	
+	<div class="trades">
+	  <h3>Trades</h3>
+	</div>
+      </div>
+    </div>
+
+    <div class="template" id="widget-bit-market-exchange-utils">
+      <div class="bitonomyMarketExchangeUtils">	
+	<ul class="titles">
+	  {{each utils}}
+	  <li class="utilTitle"><a href_="#${prefix}-${$value}">${$value}</a></li>
+	  {{/each}}
+	</ul>
+	{{each utils}}
+	<div id="${prefix}-${$value}" />
+	{{/each}}
+      </div>
+    </div>
+    
+    
+    <div class="template" id="bit-market-account-trade-form">
+      <div id="${id_}" class="${name_} ${name}">
+	<h2 class="${name_}Title">Trade</h2>
+	<div class="${name_}Content">
+	<div class="tradeInformation">
+	  <div class="tradePrice">
+	    <div>Current spread:</div>
+	    <div class="buyPrice">${buy_price}</div> - 
+	    <div class="sellPrice">${sell_price}</div>
+	  </div>		
+	  <div class="tradeBalances">
+	    <div>
+	      <span class="accountCurrency accountCurrency-1">${currency1}</span>:
+	      <span class="accountBalance accountBalance-1">${currency1_balance}</span>
+	    </div>
+	    <div>
+	      <span class="accountCurrency accountCurrency-2">${currency2}</span>:
+	      <span class="accountBalance accountBalance-2">${currency2_balance}</span>
+	    </div>
+	  </div>		
+	</div>
+	<div class="tradeForm">
+	  <form>
+	    <div class="action">
+	      <select>
+		<option value="">---</option>
+		<option value="Buy">Buy</option>
+		<option value="Sell">Sell</option>
+	      </select>
+	    </div>
+	    <div class="amount">Amount in ${currency2}: <div><input type="text"/></div></div>
+	    <div class="price">Price in ${currency1}: <div><input type="text"/></div></div>
+	    <div class="totals visibilityHidden">
+	      <div>You are going to <span class="proposedAction"></span>
+		a total of <span class="proposedAmount">0</span> ${currency2}</div>
+	      <div>at a price of <span class="proposedPrice">0</span> ${currency1}</div>
+	      <div>for a total of <span class="proposedTotal">0</span> ${currency1}</div>
+	    </div>
+	    <div class="confirm visibilityHidden">		
+	      <input type="button" value="confirm order" />
+	    </div>
+	  </form>
+	</div>
+	</div>
+	<div class="clear"></div>
+      </div>
+    </div>
+    
+    
+    <div class="template" id="bit-market-account-positions">
+      <div id="${id_}" class="bitonomyAccountPositions positions ${name}">
+	<h2>Positions</h2>
+	<div class="accountBuying" />
+	<div class="accountSelling" />
+      </div>
+    </div>
+    
+    
+    <div class="template" id="bit-market-account-trade-history">
+      <div id="${id_}" class="bitonomyAccountTradeHistory ${name}">
+	<h2>Trade history</h2>
+	<div class="accountBought" />
+	<div class="accountSold" />
+      </div>
+    </div>
+    
+  </body> 
+</html>

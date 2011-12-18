@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15">
+    <title></title>
+  </head>
+  <body>
+    <div class="template" id="jtk-frame">
+      <div class="frame ${name}" id="${id_}" />
+    </div>     
+
+    <div class="template" id="jtk-panel">
+      <div class="panel panel-${name} ${name} ${class_}" id="${id_}" />
+    </div>     
+
+    <div class="template" id="jtk-widget">
+      <div class="widget widget-${name} ${name} ${class_}" id="${id_}">{{html content_}}</div>
+    </div>     
+
+    <div class="template" id="jtk-element">
+      ${content_}
+    </div>     
+
+    <div class="template" id="jtk-label">
+      <span class="widget widget-${name} ${name} ${class_}" id="${id_}">${content_}</span>
+    </div>     
+        
+    <div class="template" id="jtk-title">
+      {{if !type}}
+      <h1 class="widget widget-${name} ${name} ${class_}" id="${id_}">${content_}</h1>
+      {{/if}}                 
+      {{if type=='h2'}}
+      <h2 class="widget widget-${name} ${name} ${class_}" id="${id_}">${content_}</h2>
+      {{/if}}                 
+      {{if type=='h3'}}
+      <h3 class="widget widget-${name} ${name} ${class_}" id="${id_}">${content_}</h3>
+      {{/if}}                 
+      {{if type=='h4'}}
+      <h4 class="widget widget-${name} ${name} ${class_}" id="${id_}">${content_}</h4>
+      {{/if}}     
+    </div>     
+
+    <div class="template" id="jtk-list">
+      <ul class="widget widget-${name} ${name} ${class_}" id="${id_}">${content_}</ul>
+    </div>     
+    
+    <div class="template" id="jtk-list-item">
+      <li class="widget widget-${name} ${name} ${class_}" id="${id_}">${content_}</li>
+    </div>     
+
+    <div class="template" id="jtk-link">
+      <a class="widget widget-${name} ${name} ${class_}" id="${id_}" href_="${href}">${content_}</a>
+    </div>     
+
+    <div class="template" id="jtk-button">
+      <a class="button button-${name} ${name} ${class_}" id="${id_}" href_="${href}">${content_}</a>
+    </div>
+    
+    <div class="template" id="jtk-input">
+      <input class="input input-${name} ${name} ${class_}" id="${id_}" href_="${href}" type="${type}" title="${title}" value="${content_}" ></a>
+    </div>     
+
+    <div class="template" id="jtk-image">
+      <img class="image image-${name} ${name} ${class_}" id="${id_}" src_="${src}" />
+    </div>     
+
+    <div class="template" id="jtk-canvas">
+      <canvas width="${width}" height="${height}" class="canvas-${name} ${name} ${class_}" id="${id_}">
+      Canvas not supported
+      </canvas>
+    </div>     
+    
+    <div class="template" id="jtk-popup">
+      <div class="popup ${name}" id="${id_}" />
+    </div>     
+
+    <div class="template" id="jtk-form">
+      <form class="${name}" id="${id_}" />
+    </div>     
+
+    <div class="template" id="jtk-select">
+      <select class="${name}" id="${id_}" />
+    </div>     
+
+    <div class="template" id="jtk-option">
+      {{if selected}}
+      <option class="${name}" id="${id_}" value="${value}" selected="selected">
+	${content_}
+      </option>
+      {{else}}
+      <option class="${name}" id="${id_}" value="${value}">
+	${content_}
+      </option>
+      {{/if}}
+    </div>     
+   
+  </body> 
+</html>

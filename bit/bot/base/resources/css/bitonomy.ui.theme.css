@@ -1,0 +1,47 @@
+
+
+
+.ui-layout-pane { /* all 'panes' */
+background: none;                  
+}
+
+.panel-ui-layout-west,
+.panel-ui-layout-north,
+.panel-ui-layout-south,
+.panel-ui-layout-east
+{ 
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(255,255,238,.7)), to(rgba(255,255,255,.5)));
+    background: -moz-linear-gradient(rgba(255,255,238,.7), rgba(255,255,255,.5));
+    background: -o-linear-gradient(rgba(255,255,238,.7), rgba(255,255,255,.5));
+    background: linear-gradient(rgba(255,255,238,.7), rgba(255,255,255,.5));
+ }
+
+
+
+.ui-tabs .ui-tabs-nav li a 
+{ 
+    float: left;
+    padding: .2em .5em;
+    text-decoration: none;
+  }
+
+.ui-widget 
+{ 
+    font-size: 1em;
+  }             
+.ui-widget .ui-widget 
+{ 
+    font-size: .9em;
+  }                        
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button 
+{ 
+    font-size: .9em;
+  }
+
+
+
+.ui-layout-pane
+{ 
+padding: 0;
+ }
+

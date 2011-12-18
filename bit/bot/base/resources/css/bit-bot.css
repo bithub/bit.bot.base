@@ -1,0 +1,142 @@
+
+.panel-ui-layout-north
+{ 
+  overflow: hidden;
+ }
+
+
+
+.bot
+{ 
+text-align: center;
+height: 100%;
+width: 90%;
+position: fixed;
+overflow-x: visible;
+overflow-y: auto;
+left: 5%;
+ }
+
+.bot-button
+{ 
+position: absolute;
+top: 27%;
+left: 37%;
+ }
+
+.bot-mini-button,
+.bot-speak-input,
+.bot-speak-password
+{ 
+float: left;
+ }
+
+.bot-speak-form
+{ 
+position: absolute;
+bottom: 2px;
+ }
+
+.bot-speak-input,
+.bot-speak-password
+{ 
+
+ }
+
+
+.bot-content
+{ 
+width: 90%;
+height: 90%;
+  margin: auto;
+ -moz-box-shadow:  3px 2px 5px #bbb ;
+-webkit-box-shadow: 3px 2px 5px #bbb;
+        box-shadow: 3px 2px 5px #bbb ;
+ }
+
+
+.bot-brain
+{ 
+  height: 36px;
+  background: white;
+  position: relative;
+ }
+
+.bot-speak-form
+{ 
+  display: inline;
+  
+ }
+
+
+ul.bot-chat
+{ 
+list-style: none;
+padding: 0 .3em;
+ }
+
+
+    /* Create the bubble */
+    .speech-bubble{
+    position: relative;
+//    width: 400px;
+    padding: .5em;
+    margin-bottom: 20px;
+    color: #777;
+    background: rgba(255,0,0,0); /*required for browsers that don't support gradients*/
+    border-radius: 15px; /*change depending on how much of a curve you want on the borders*/
+
+    /*give the background a gradient*/
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(255,255,238,.7)), to(rgba(255,255,255,.7)));
+    background: -moz-linear-gradient(rgba(255,255,238,.7), rgba(255,255,255,.7));
+    background: -o-linear-gradient(rgba(255,255,238,.7), rgba(255,255,255,.7));
+    background: linear-gradient(rgba(255,255,238,.7), rgba(255,255,255,.7));
+
+ -moz-box-shadow:  2px 2px 2px #777 ;
+-webkit-box-shadow: 3px 2px 2px #777;
+        box-shadow: 2px 2px 2px #777;
+
+    }
+    /* Create the triangle */
+.say-user .speech-bubble:after{
+    content: "";
+    position: absolute;
+    right: 23px; /*position of the triangle on the bubble*/
+    border-width: 13px 3px 0 13px; /*size of the triangle, the bottom needs to be 0*/
+    bottom: -13px; /*negative value of the top border width*/
+    border-style: solid;
+    border-color: #d6d9d4 transparent; /*same as the lower colour of the bubble gradient*/
+    }
+
+.say-bot .speech-bubble:before{
+    content: "";
+    position: absolute;
+    left: 23px; /*position of the triangle on the bubble*/
+    border-width: 0px 13px 13px 3px; /*size of the triangle, the bottom needs to be 0*/
+    top: -13px; /*negative value of the top border width*/
+    border-style: solid;
+    border-color: #d6d9d4 transparent; /*same as the lower colour of the bubble gradient*/
+    }
+
+
+
+.bot-chat .speaker 
+{ 
+float: left;
+
+ }
+
+.bot-chat .response-speech
+{ 
+min-height: 32px;
+ }
+
+.bot-listen-button
+{ 
+float: right;
+ }
+
+.panel-ui-layout-east
+{ 
+  z-index: 100 !important;
+ }
