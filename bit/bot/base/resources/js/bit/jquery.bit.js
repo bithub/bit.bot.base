@@ -4,13 +4,17 @@
  {
      var bit_url = function()
      {
-	 var active = this.ctx.data('active')
+	 try{
+	     var active = this.ctx.data('active')
+	 }catch(err){
+	     console.log(this)
+	 }
 	 return $.bit('plugins').plugins()['bit.'+active.activity+'.'+active.plugin].template_url;
      }
 
      var bit_bit = function()
      {
-	 return this.ctx.data('bit')
+	 return this.data('bit')
      }
      
      var plugin_cache = {}
@@ -29,12 +33,35 @@
 	 return this;
      }
 
+     var Plugin = function() {
+	 this.init = function(option) {
+	     return this;
+	 }
+	 this.load_activity = function(option) {
+	     return this;
+	 }
+	 this.load_activity_menus = function(option) {
+	     return this;
+	 }
+	 this.load_activity_button = function(option) {
+	    var button = {
+		icon: '/images/activity.png'
+		,title: 'Activity'
+	    }
+	    return button
+	 }
+	 return this
+     }
+
      var bit_methods =
 	 {
-
 	     plugins: function()
 	     {
 		 return new PluginRegistry
+	     },
+	     plugin: function()
+	     {
+		 return new Plugin
 	     }
 	 }
      

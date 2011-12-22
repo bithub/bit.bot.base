@@ -12,14 +12,13 @@ class Plugins(object):
         config = getUtility(IConfiguration)
         plugins = config.get('bot','plugins')
         if isinstance(plugins,str): plugins = [plugins]
+        _plugins = []
         for plugin in plugins:
             plug = resolve(plugin.strip())()
-            if not IPluginFactory.providedBy(plug): continue
-            plug.load_utils()
-            plug.load_handlers()
-            plug.load_services()
-            plug.load_sockets()
-            plug.load_HTTP()
-            plug.load_AIML()
+            if IPluginFactory.providedBy(plug): _plugins.append(plug)
+
+        for auto in ['adapters','utils','handlers','agents','services','sockets','HTTP','AIML']:
+            for plug in _plugins:
+                getattr(plug,'load_%s' %auto)()
     
             

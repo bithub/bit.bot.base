@@ -41,11 +41,23 @@
     </div>     
 
     <div class="template" id="jtk-list">
+      {{if type == 'definition' }}
+      <dl class="widget widget-${name} ${name} ${class_}" id="${id_}">${content_}</dl>
+      {{else}}      
       <ul class="widget widget-${name} ${name} ${class_}" id="${id_}">${content_}</ul>
+      {{/if}}      
     </div>     
     
     <div class="template" id="jtk-list-item">
       <li class="widget widget-${name} ${name} ${class_}" id="${id_}">${content_}</li>
+    </div>     
+
+    <div class="template" id="jtk-list-term">
+      <dt class="widget widget-${name} ${name} ${class_}" id="${id_}">${content_}</dt>
+    </div>     
+
+    <div class="template" id="jtk-list-description">
+      <dd class="widget widget-${name} ${name} ${class_}" id="${id_}">${content_}</dd>
     </div>     
 
     <div class="template" id="jtk-link">
@@ -53,7 +65,13 @@
     </div>     
 
     <div class="template" id="jtk-button">
-      <a class="button button-${name} ${name} ${class_}" id="${id_}" href_="${href}">${content_}</a>
+      <a class="button button-${name} ${name} ${class_}" id="${id_}" href_="${href}">
+	{{if type=='image'}}
+	<img src_="${src}" alt="${content_}" />
+	{{else}}
+	${content_}
+      {{/if}}
+      </a>
     </div>
     
     <div class="template" id="jtk-input">
@@ -93,6 +111,38 @@
       </option>
       {{/if}}
     </div>     
-   
+
+    <div class="template" id="jtk-table">
+      <table class="tabulated tabulated-${name} ${class_}" id="${id_}">${content_}</table>
+    </div>
+
+    <div class="template" id="jtk-table-body">
+      <tbody class="tabulated-body tabulated-body-${name} ${class_}" id="${id_}">${content_}</tbody>
+    </div>    
+
+    <table class="template" id="jtk-table-row">
+      <tr class="tabulated-row row-${name} ${class_}" id="${id_}">
+    </table>
+
+    <div class="template" id="jtk-table-row-group">
+      <table>      
+	<tr class="template">
+	  ${content_}
+	</tr>
+      </table>	
+    </div>    
+
+    <div class="template" id="jtk-table-cell">
+      <table>
+	<tr>
+	  <td colspan="${colspan}" class="tabulated-cell cell-${name} ${class_}" id="${id_}">${content_}</td>
+	</tr>
+      </table>
+    </div>
+
+    <div class="template" id="jtk-table-header">
+      <th class="tabulated-header header-${name} ${class_}" id="${id_}">${content_}</th>
+    </div>                 
+
   </body> 
 </html>

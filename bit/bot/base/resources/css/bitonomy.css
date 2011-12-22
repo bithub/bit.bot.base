@@ -55,8 +55,37 @@ padding: .1em .5em;
 display: table-cell;
   }
 
+ul.table li span.tcell 
+{ 
+padding: .1em .5em;
+display: table-cell;
+  }
 
 
+.tabulate
+{ 
+display: table;
+ }
+
+.tabulate .tgroup
+{ 
+display: table-group;
+ }
+
+.tabulate .trow
+{ 
+display: table-row;
+ }
+
+.tabulate .tcell
+{ 
+display: table-cell;
+ }
+
+.tabulate .theader
+{ 
+display: table-header;
+ }
 
 
 

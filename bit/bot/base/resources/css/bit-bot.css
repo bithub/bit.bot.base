@@ -1,7 +1,9 @@
 
 .panel-ui-layout-north
 { 
-  overflow: hidden;
+  overflow: visible;
+  height: 32px;
+  z-index: 100 !important;
  }
 
 
@@ -28,7 +30,7 @@ left: 37%;
 .bot-speak-input,
 .bot-speak-password
 { 
-float: left;
+display: inline-block;
  }
 
 .bot-speak-form
@@ -133,10 +135,74 @@ min-height: 32px;
 
 .bot-listen-button
 { 
-float: right;
+position: absolute;
+right: 0;
  }
 
 .panel-ui-layout-east
 { 
   z-index: 100 !important;
  }
+
+.bot-status,
+.bot-content-buttons,
+.bot-speak-button,
+.bot-speak
+{ 
+float: left;
+ }
+
+.activity-menus
+{ 
+float: right;
+margin-right: 32px;
+ }
+
+
+.bot-content-buttons .button
+{ 
+  width: 7em;
+  border: 2px solid #DDDDDD;
+  padding: 0.3em;
+  margin: 2px;
+  width: 3px !important;
+  }
+
+
+
+dl.dropdown-menus
+{ 
+  margin: 0 1em;
+  position: absolute;
+  bottom: 0;
+  display: inline-block;
+ }
+dl.dropdown-menus dt.title
+{ 
+  display: inline-block;
+
+  }
+
+
+dl.dropdown-menus dd
+{ 
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+ }
+
+dl.dropdown-menus dd  ul
+{ 
+  margin: 0;
+  padding: 0;
+  list-style: none;
+ }
+
+dl.dropdown-menus dd  ul li
+{ 
+  padding: .3em .7em;
+  display: block;
+  max-width: 7em;
+  min-width: 3em;
+  }

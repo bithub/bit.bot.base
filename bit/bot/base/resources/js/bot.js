@@ -12,7 +12,7 @@
 
 		var plugins = $.bit('plugins').plugins()
 		//nsole.log(plugins)
-		for (plugin in plugins)
+		for (var plugin in plugins)
 		{
 		    if ('load' in plugins[plugin])
 		    {
@@ -49,13 +49,13 @@
 
 		this.signal('listen', 'data-loaded', function()
 			    {
-				console.log('loading templates')
+				//console.log('loading templates')
 				$this.bot('loadTemplates', function()
 					       {
-						   console.log('rendering frame')
+						   //console.log('rendering frame')
 						   $this.bot('renderFrame', function()
 								  {
-								      console.log('updating plugins')
+								      //console.log('updating plugins')
 								      $this.bot('updatePlugins',function()
 										     {
 											 //$this.bot('loadFrame', 'coin', 'trading');
@@ -175,7 +175,7 @@
 
 
 	    updateResource: function(activity,plugin,path,cb) { 		
-		console.log('updating plugin resource: bit.'+activity+'.'+plugin+'.'+path);
+		//console.log('updating plugin resource: bit.'+activity+'.'+plugin+'.'+path);
 		var bit = this.data('bit');
 
 		var $this = this;
@@ -303,7 +303,7 @@
 		}		
 		var load_plugin_templates = function()
 		{
-		    console.log('base templates loaded')
+		    //console.log('base templates loaded')
 //		    $.jplates(plugin_templates, function()
 //			      {
 		    //console.log('plugin templates loaded')
@@ -403,54 +403,129 @@
 
 	    loadWebSocket: function(cb) { 		
 		var $this = this;
-		var ws = new WebSocket('ws://curate.3ca.org.uk:8383/')
 		this.signal();
-		var status = 0;
-		ws.onmessage = function(evt) 
+		var active = $this.data('active');		
+		active['socket'] = {}		
+		var wsserver = 'ws://curate.3ca.org.uk:8383/';
+		active['status'] = {}
+		var connect = function()
 		{
-		    var resp = JSON.parse(evt.data.trim()); 
-		    if ('bit' in resp)
+		    active['socket']['status'] = 'connecting'
+		    $this.signal('emit','socket-connecting','')		
+		    $this.signal('emit','status-message','connecting to '+wsserver)		
+
+		    var ws = new WebSocket(wsserver);
+		    var status = 0;
+		    ws.onmessage = function(evt) 
 		    {
- 			$this.data('bit',resp['bit']);
-		    }
-		    if ('emit' in resp)
-		    {
-			console.log(resp['emit'])
-			var emmissions = resp['emit'];
-			for (var emit in emmissions)
+			var resp = JSON.parse(evt.data.trim()); 
+			if ('bit' in resp)
 			{
-			    console.log(emmissions[emit])
-			    $this.signal('emit',emit,emmissions[emit]);
+			    if ('bit' in resp)
+			    {
+				$.extend($this.data('bit'),resp['bit'])
+			    }
+			}
+			if ('emit' in resp)
+			{
+			    var emmissions = resp['emit'];
+			    for (var emit in emmissions)
+			    {
+				console.log(emmissions[emit])
+				$this.signal('emit',emit,emmissions[emit]);
+			    }
 			}
 		    }
+		    ws.onclose = function(evt) 
+		    {		    
+		    console.log('disconnected');
+			var session = '';
+			active['socket'] = {}
+			active['socket']['status'] = 'disconnected'
+			$this.signal('emit','socket-disconnected','')		
+			$this.signal('emit','status message','connection lost to '+wsserver)		
+			setTimeout(reconnect,5000)
+		    }
+		    ws.onopen = function(evt) 
+		    {		    
+			console.log('connected');
+			var session = '';
+			$this.signal('emit','status-message','connected to '+wsserver)		
+			active['socket']['status'] = 'connected'
+			$this.signal('emit','socket-connected','')		
+		    }		
+		    return ws
 		}
-		ws.onopen = function(evt) 
-		{		    
-		    console.log('connected');
-		    var session = '';
-		    $this.signal('listen','frame-loaded',function(msg)
-				 {
-				     session = $this.data('frame').guid();
-				     var _msg  = {};
-				     _msg['session'] = session;
-				     ws.send(JSON.stringify(_msg));				     
-				 })
+		var reconnect = function()
+		{
+		    if (active.socket.status == 'connected') return
+		    try {			
+			ws = connect()
+		    } catch(e) {			
+			$this.signal('emit','status-message','connection failed to '+wsserver)		
+			$this.signal('emit','socket-disconnected',e)		
+			active.socket.status = 'disconnected'
+		    }
+		    setTimeout(reconnect,5000)
+		}			
+		var ws = connect()
 
-		    $this.signal('listen','speak',function(msg)
-				 {
-				     var _msg = {};
-				     _msg['session'] = session;
-				     _msg['message'] = msg;
-				     ws.send(JSON.stringify(_msg));
-				 })
-		    $this.signal('listen','speak-password',function(msg)
-				 {
-				     var _msg = {};
-				     _msg['session'] = session;
-				     _msg['message'] = msg;
-				     ws.send(JSON.stringify(_msg));
-				 })
-		}		
+		$this.signal('listen','status-message',function(msg)
+			     {
+				 active.status['message'] = msg;
+			     })
+
+		
+		$this.signal('listen', 'auth-successful', function(resp)
+			   {
+			       //console.log('auth successful: '+resp)
+			       active.person = {}
+			       active.person.jid = resp
+			       var _active = $this.data('active');
+			       //console.log(_active)
+			   })
+
+		$this.signal('listen', 'auth-goodbye', function(resp)
+			     {
+				 active.person = null;
+				 ctx.signal('emit', 'close-sessions', '');
+			     })
+		
+		$this.signal('listen','subscribe',function(msg)
+			     {
+				 var _msg  = {};
+				 var session = $this.data('frame').guid();
+				 _msg['subscribe'] = msg;
+				 _msg['session'] = session;
+				 ws.send(JSON.stringify(_msg));				     
+			     })
+
+
+		$this.signal('listen','frame-loaded',function(msg)
+			     {
+				 var _msg  = {};
+				 var session = $this.data('frame').guid();
+				 _msg['session'] = session;
+				 ws.send(JSON.stringify(_msg));				     
+			     })
+
+		$this.signal('listen','speak',function(msg)
+			     {
+				 var _msg = {};
+				 var session = $this.data('frame').guid();
+				 _msg['session'] = session;
+				 _msg['message'] = msg;
+				 ws.send(JSON.stringify(_msg));
+			     })
+		$this.signal('listen','speak-password',function(msg)
+			     {
+				 var _msg = {};
+				 var session = $this.data('frame').guid();
+				 _msg['session'] = session;
+				 _msg['message'] = msg;
+				 ws.send(JSON.stringify(_msg));
+			     })
+
 		return this;
 	    },
 

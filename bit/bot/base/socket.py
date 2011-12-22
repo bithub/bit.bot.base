@@ -3,10 +3,23 @@ import json
 from zope.component import getUtility
 from zope.interface import implements
 from twisted.internet.protocol import Factory
+from twisted.internet import defer
 from twisted.protocols.stateful import StatefulProtocol
-from bit.bot.common.interfaces import ISockets, IIntelligent, ISessions
+from bit.bot.common.interfaces import ISockets, IIntelligent, ISessions, ISubscriptions, IFlatten
 from txws import WebSocketFactory
 
+from bit.bot.base.flat import Flattener
+
+class SocketsFlattener(Flattener):
+    implements(IFlatten)
+    def flatten(self):
+        _sockets = {}                
+        sockets = self.context.sockets
+        for socket in sockets:
+            _sockets[socket] = []
+            for _socket in sockets[socket]:
+                _sockets[socket].append(_socket)
+        return defer.maybeDeferred(lambda:_sockets)
 
 class BotSocketProtocol(StatefulProtocol):
     def connectionMade(self):
@@ -35,11 +48,15 @@ class BotSocketProtocol(StatefulProtocol):
         def _gotSession(sess):
             if sess:
                 jid = sess.jid
-                if 'message' in data:
-                    getUtility(IIntelligent).respond(data['message'],jid).addCallback(respond)
+                getUtility(ISessions).stamp(sessionid)
+                if 'message' in data:                    
+                    getUtility(IIntelligent).respond(data['message'].strip(),jid).addCallback(respond)
             else:
                 if 'message' in data:            
-                    getUtility(IIntelligent).respond(data['message'],'anon@chat.3ca.org.uk/%s'%sessionid).addCallback(respond)            
+                    getUtility(IIntelligent).respond(data['message'].strip(),'anon@chat.3ca.org.uk/%s'%sessionid).addCallback(respond)
+        if 'subscribe' in data:
+            subscriptions = getUtility(ISubscriptions)
+            subscriptions.subscribe(data['subscribe'],sessionid,self.transport.write)
         getUtility(ISessions).session(sessionid).addCallback(_gotSession)
 
 
