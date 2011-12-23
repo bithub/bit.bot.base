@@ -18,6 +18,6 @@ dist
 .svn
 *.pyc
 *.pyo
-*.tmp*
+*.tmp
 *~
-\#*
+#\#*
