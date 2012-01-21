@@ -1,21 +1,13 @@
 
 
 from zope.interface import implements
-from zope.component import getGlobalSiteManager, getUtility
-from twisted.words.xish import domish
+from zope.component import getUtility
 
-from ldaptor.interfaces import ILDAPEntry
-
-from bit.bot.common.interfaces import IGroups, IMember, IGroup, IIntelligent, ISessions, IConfiguration
-
-from wokkel.xmppim import MessageProtocol, AvailablePresence
-
-from bit.bot.base.roles import RoleProvider
-
-from bit.bot.common.interfaces import IBotRequest
+from bit.bot.common.interfaces import IIntelligent, IConfiguration
+from bit.bot.common.interfaces import ISocketRequest
 
 class BitBotRequest(object):
-    implements(IBotRequest)
+    implements(ISocketRequest)
     def __init__(self,proto):
         self.proto = proto
     

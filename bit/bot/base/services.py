@@ -1,6 +1,6 @@
 
 from zope.interface import implements
-from zope.component import getUtility
+
 from twisted.application.service import IServiceCollection, MultiService
 from twisted.internet import defer
 

@@ -6,13 +6,12 @@ from zope.interface import implements
 from zope.event import notify
 from zope.component import adapter, getUtility
 
-from twisted.application.internet import TCPServer, TimerService
+from twisted.application.internet import TimerService
 from twisted.internet import defer
+from twisted.application.service import IServiceCollection
 
 from bit.bot.common.interfaces import IBotAgent, ISubscriptions, IAgents, IFlatten, IServices
 from bit.bot.base.flat import Flattener
-
-
 
 class PingEvent(object):
     pass
@@ -41,6 +40,7 @@ class AgentRubbish(BotAgent):
         self._updated = time.time()
 
     def scope(self):
+        return
         if self.active: return
         self.activate()
         notify(RubbishCollectionEvent())
@@ -84,7 +84,7 @@ class AgentsFlattener(Flattener):
         _agent = {}
         _agent['agents'] = []
         _agent['multi'] = False
-        if IAgentCollection.providedBy(agent):
+        if IServiceCollection.providedBy(agent):
             _agent['multi'] = True            
             for sub,subagent in agent.namedAgents.items():
                 _agent['agents'].append(self._flatten(sub,subagent))

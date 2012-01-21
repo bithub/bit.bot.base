@@ -2,65 +2,50 @@
 import os
 import inspect
 from zope.interface import implements
-from zope.component import getUtility, getGlobalSiteManager, provideHandler, adapter, provideUtility, provideHandler,provideAdapter
+from zope.component import getUtility, provideUtility, provideHandler,provideAdapter
+
+# this is necessary to activate the event architecture
 import zope.component.event
-from zope.event import notify
-from twisted.application.internet import TCPServer, TimerService
+# and this is for pyflakes
+zope.component.event
+
 from twisted.application.service import IServiceCollection
-from twisted.web import server
 from twisted.web import static
 
-from bit.bot.common.interfaces import IPluginFactory, IJPlates, IHTMLResources, IConfiguration, IHTTPRoot, IServices, ISockets, IIntelligent, IWebImages, IWebCSS, IWebJS, IWebHTML, IWebJPlates, IWebFolder, ISubscriptions, IFlatten, ISessions, IAgents, IApplication, ISession
+from bit.bot.common.interfaces import IPlugin, IServices, IIntelligent, IWebImages, IWebCSS, IWebJS, IWebHTML, IWebJPlates, ISubscriptions, IFlatten, IAgents
 
-from bit.bot.base.http import BitBotHTTP, BitBotImages, BitBotJS, BitBotCSS, BitBotJPlates, BitBotHTML, BitBotResourceFolder
+from bit.bot.web.folder import BotFolder
 
 from bit.bot.base.subscriptions import Subscriptions
-from bit.bot.base.socket import Sockets, WebBotSocketFactory
-from bit.bot.base.handlers import bot_session_created, bot_session_destroyed, rubbish_collection, session_destroyed, session_created, agents_session_created,sessions_changed,stfw_session_created,sessions_session_created
-
+from bit.bot.base.handlers import  rubbish_collection
 from bit.bot.base.agent import AgentRubbish, Agents, AgentsFlattener
-
-from bit.bot.base.sessions import SessionsFlattener, SessionFlattener
 from bit.bot.base.services import ServicesFlattener, Services
-from bit.bot.base.socket import SocketsFlattener
 
-
-
-class HTMLResources(object):
-    implements(IHTMLResources)
-    def __init__(self,dir):
-        self.dir = dir
-        self._root = static.File(self.dir)
-
-    @property
-    def root(self):
-        return self._root
-
-    def resource(self,*la):
-        resource = self._root
-        if len(la)>1:
-            for child in la[:-1]:
-                resource = resource.children[child]
-        return os.path.join(resource.path,la[-1])
-
-class JPlates(HTMLResources):
-    implements(IJPlates)
-
-
-class BitBotPluginBase(object):
-    implements(IPluginFactory)
+class BotPlugin(object):
+    implements(IPlugin)
     _services = {}
     _handlers = []
     _services = {}
     _http = {}
     _aiml = []
     _agents = {}
+    _utils = []
 
     @property
     def name(self):
         return '%s.%s' %(self.__module__,self.__class__.__name___)
 
-    def load_utils(self): pass
+    @property
+    def utils(self):
+        return self._utils
+
+    def load_utils(self):
+        for util,iface in self.utils:
+            if isinstance(iface,list):
+                name,iface = iface
+                provideUtility(util,iface,name=name)
+            else:
+                provideUtility(util,iface)
 
     def load_agents(self):
         [getUtility(IAgents).add(self.name,name,*agent)
@@ -70,10 +55,14 @@ class BitBotPluginBase(object):
         for handler in self._handlers:
             provideHandler(handler)
 
+    @property
+    def services(self):
+        return self._services
+
     def load_services(self):
-        if not self._services: return
+        if not self.services: return
         _services = {}
-        for sid,s in self._services.items():
+        for sid,s in self.services.items():
             _services[sid] = s['service'](*s.get('args',[]))
         getUtility(IServices).add(self.name,_services)
 
@@ -85,7 +74,6 @@ class BitBotPluginBase(object):
         pass
 
     def load_HTTP(self):
-        image_extensions = ['png','jpg','jpeg','gif']
         resource_types = {'images':dict(iface=IWebImages
                                         ,ext=['png','jpg','jpeg','gif'])
                           ,'js':dict(iface=IWebJS
@@ -110,7 +98,7 @@ class BitBotPluginBase(object):
                         for subf in os.listdir(dir_target):
                             if os.path.isdir(os.path.join(dir_target,subf)):
                                 if not subf in resource.children:
-                                    resource.putChild(subf,BitBotResourceFolder())
+                                    resource.putChild(subf,BotFolder())
                                 subresource = resource.children[subf]
                                 self._add_http_resources(subresource, resource_types,rtype, os.path.join(dir_target,subf)) 
 
@@ -136,50 +124,24 @@ class BitBotPluginBase(object):
             elif os.path.isfile(target):
                 getUtility(IIntelligent).learn(target)
 
-class BitBot(BitBotPluginBase):
-    implements(IPluginFactory)
-
-    _handlers = [bot_session_created,bot_session_destroyed,rubbish_collection,session_destroyed,session_created,agents_session_created,sessions_changed,stfw_session_created,sessions_session_created]
+class BitBot(BotPlugin):
+    implements(IPlugin)
+    _handlers = [rubbish_collection,]
     _agents = { 'rubbish': (AgentRubbish, 5) }
     _http = {'root': 'resources'}
     _services = {}
     name = 'bit.bot.base'
 
-    def load_services(self):
-        self._services = {'socket': dict( service=TCPServer
-                                          ,args=[8383,WebBotSocketFactory()])
-                          ,'http': dict( service = TCPServer 
-                                         ,args =[int(getUtility(IConfiguration).get('http','port'))
-                                                 ,server.Site(getUtility(IHTTPRoot))])
-                          }
-        super(BitBot,self).load_services()
-
     def load_utils(self):
-        provideUtility(HTMLResources(os.path.join(os.path.dirname(__file__),'html')),IHTMLResources)
-        provideUtility(JPlates(os.path.join(os.path.dirname(__file__),'jplates')),IJPlates)
-
-        provideUtility(BitBotHTTP(),IHTTPRoot)
-        provideUtility(BitBotImages(),IWebImages)
-        provideUtility(BitBotCSS(),IWebCSS)
-        provideUtility(BitBotJS(),IWebJS)
-        provideUtility(BitBotHTML(),IWebHTML)
-        provideUtility(BitBotJPlates(),IWebJPlates)
-
-        provideUtility(Sockets(),ISockets)
         provideUtility(Subscriptions(),ISubscriptions)
-
         provideUtility(IAgents(self),IAgents)
 
     def load_adapters(self):
-        provideAdapter(Agents,[IPluginFactory,],IAgents)       
+        provideAdapter(Agents,[IPlugin,],IAgents)       
         provideAdapter(AgentsFlattener,[IAgents,],IFlatten)        
 
         provideAdapter(Services,[IServiceCollection,],IServices)       
         provideAdapter(ServicesFlattener,[IServices,],IFlatten)      
   
-        provideAdapter(SessionsFlattener,[ISessions,],IFlatten)        
-        provideAdapter(SessionFlattener,[ISession,],IFlatten)        
-        provideAdapter(SocketsFlattener,[ISockets,],IFlatten)        
-
 
 
