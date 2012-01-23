@@ -14,8 +14,6 @@ from twisted.web import static
 
 from bit.bot.common.interfaces import IPlugin, IServices, IIntelligent, IWebImages, IWebCSS, IWebJS, IWebHTML, IWebJPlates, ISubscriptions, IFlatten, IAgents
 
-from bit.bot.web.folder import BotFolder
-
 from bit.bot.base.subscriptions import Subscriptions
 from bit.bot.base.handlers import  rubbish_collection
 from bit.bot.base.agent import AgentRubbish, Agents, AgentsFlattener
@@ -74,6 +72,12 @@ class BotPlugin(object):
         pass
 
     def load_HTTP(self):
+        # need to push this to bit.bot.http
+        try:
+            from bit.bot.web.folder import BotFolder
+        except:
+            return
+
         resource_types = {'images':dict(iface=IWebImages
                                         ,ext=['png','jpg','jpeg','gif'])
                           ,'js':dict(iface=IWebJS
