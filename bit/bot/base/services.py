@@ -64,9 +64,7 @@ class Services(object):
             self._multi.append(name)
         for sid,s in services.items():
             s.setName(sid)
-            try:
-                s.setServiceParent(plug_services)
-            except: import pdb; pdb.set_trace()
+            s.setServiceParent(plug_services)
             print 'adding sub service %s' %sid
         if add:
             plug_services.setServiceParent(self.collect)
