@@ -1,6 +1,8 @@
 
 
-from bit.bot.common.interfaces import IRoles, IConfiguration, IMembers
+from bit.bot.common.interfaces import IRoles, IMembers
+from bit.core.interfaces import IConfiguration
+
 from zope.interface import implements
 from zope.component import getUtility
 

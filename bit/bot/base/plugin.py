@@ -12,7 +12,10 @@ zope.component.event
 from twisted.application.service import IServiceCollection
 from twisted.web import static
 
-from bit.bot.common.interfaces import IPlugin, IServices, IIntelligent, IWebImages, IWebCSS, IWebJS, IWebHTML, IWebJPlates, ISubscriptions, IFlatten, IAgents
+
+from bit.core.interfaces import IPlugin, IServices
+
+from bit.bot.common.interfaces import IIntelligent, IWebImages, IWebCSS, IWebJS, IWebHTML, IWebJPlates, IFlatten, IAgents, ISubscriptions
 
 from bit.bot.base.subscriptions import Subscriptions
 from bit.bot.base.handlers import  rubbish_collection

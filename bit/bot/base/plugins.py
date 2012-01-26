@@ -1,9 +1,9 @@
 from zope.dottedname.resolve import resolve  
 from zope.component import getUtility
-from bit.bot.common.interfaces import IConfiguration
-from zope.interface import implements
-from bit.bot.common.interfaces import IPlugins, IPlugin
 
+from zope.interface import implements
+
+from bit.core.interfaces import IPlugins, IPlugin, IConfiguration
 
 class Plugins(object):
     implements(IPlugins)

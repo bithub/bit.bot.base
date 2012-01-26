@@ -10,7 +10,8 @@ from twisted.application.internet import TimerService
 from twisted.internet import defer
 from twisted.application.service import IServiceCollection
 
-from bit.bot.common.interfaces import IBotAgent, ISubscriptions, IAgents, IFlatten, IServices
+from bit.core.interfaces import IServices
+from bit.bot.common.interfaces import  IFlatten, IBotAgent, ISubscriptions, IAgents
 from bit.bot.base.flat import Flattener
 
 class PingEvent(object):

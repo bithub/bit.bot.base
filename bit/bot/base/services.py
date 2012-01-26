@@ -4,7 +4,8 @@ from zope.interface import implements
 from twisted.application.service import IServiceCollection, MultiService
 from twisted.internet import defer
 
-from bit.bot.common.interfaces import IFlatten, IServices
+from bit.core.interfaces import IServices
+from bit.bot.common.interfaces import IFlatten
 from bit.bot.base.flat import Flattener
 
 class ServicesFlattener(Flattener):

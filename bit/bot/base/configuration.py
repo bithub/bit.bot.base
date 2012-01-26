@@ -4,7 +4,7 @@ from ConfigParser import ConfigParser
 from zope.component import getUtilitiesFor
 from zope.interface import implements
 
-from bit.bot.common.interfaces import IConfiguration, IFileConfiguration
+from bit.core.interfaces import IConfiguration, IFileConfiguration
 
 class Configuration(object):
     implements(IConfiguration)
