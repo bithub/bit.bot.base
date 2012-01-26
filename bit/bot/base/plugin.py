@@ -14,6 +14,7 @@ from twisted.web import static
 
 
 from bit.core.interfaces import IPlugin, IServices
+from bit.core.plugin import BitPlugin
 
 from bit.bot.common.interfaces import IIntelligent, IWebImages, IWebCSS, IWebJS, IWebHTML, IWebJPlates, IFlatten, IAgents, ISubscriptions
 
@@ -22,7 +23,8 @@ from bit.bot.base.handlers import  rubbish_collection
 from bit.bot.base.agent import AgentRubbish, Agents, AgentsFlattener
 from bit.bot.base.services import ServicesFlattener, Services
 
-class BotPlugin(object):
+
+class BotPlugin(BitPlugin):
     implements(IPlugin)
     _services = {}
     _handlers = []
@@ -32,22 +34,6 @@ class BotPlugin(object):
     _agents = {}
     _utils = []
 
-    @property
-    def name(self):
-        return '%s.%s' %(self.__module__,self.__class__.__name___)
-
-    @property
-    def utils(self):
-        return self._utils
-
-    def load_utils(self):
-        for util,iface in self.utils:
-            if isinstance(iface,list):
-                name,iface = iface
-                provideUtility(util,iface,name=name)
-            else:
-                provideUtility(util,iface)
-
     def load_agents(self):
         [getUtility(IAgents).add(self.name,name,*agent)
          for name,agent in self._agents.items()]
@@ -55,24 +41,6 @@ class BotPlugin(object):
     def load_handlers(self):
         for handler in self._handlers:
             provideHandler(handler)
-
-    @property
-    def services(self):
-        return self._services
-
-    def load_services(self):
-        if not self.services: return
-        _services = {}
-        for sid,s in self.services.items():
-            _services[sid] = s['service'](*s.get('args',[]))
-        getUtility(IServices).add(self.name,_services)
-
-
-    def load_sockets(self): 
-        pass
-
-    def load_adapters(self):         
-        pass
 
     def load_HTTP(self):
         # need to push this to bit.bot.http
