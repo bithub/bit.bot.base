@@ -19,6 +19,7 @@ class Plugins(object):
 
         for auto in ['adapters','utils','handlers','agents','services','sockets','HTTP','AIML']:
             for plug in _plugins:
-                getattr(plug,'load_%s' %auto)()
+                if hasattr(plug,'load_%s' %auto):
+                    getattr(plug,'load_%s' %auto)()
     
             
