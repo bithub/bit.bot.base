@@ -2,7 +2,9 @@
 
 from zope.interface import implements
 from zope.component import getUtility
-from bit.bot.common.interfaces import ICurateBotProtocol, IAIMLMacro, IMUCBot, ISockets
+from bit.bot.common.interfaces import ICurateBotProtocol, IAIMLMacro, IMUCBot
+
+from bit.core.interfaces import ISockets
 
 
 class BotAIMacro(object):
