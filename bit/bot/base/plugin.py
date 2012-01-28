@@ -103,7 +103,7 @@ class BitBot(BotPlugin):
     implements(IPlugin)
     _handlers = [rubbish_collection,]
     _agents = { 'rubbish': (AgentRubbish, 5) }
-    _http = {'root': 'resources'}
+
     _services = {}
     name = 'bit.bot.base'
 
