@@ -52,8 +52,6 @@ class BotPlugin(BitPlugin):
                     resource = queryUtility(IHTTPRoot,rtype)
                     if not resource: continue
                     resource.add_resources(os.path.join(target,rtype))
-
-            
     
     def load_AIML(self):
         fpath =  os.path.dirname(inspect.getfile(self.__class__))
