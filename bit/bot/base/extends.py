@@ -3,6 +3,7 @@ from zope.interface import implements
 from zope.component import getUtility, provideUtility, provideHandler,provideAdapter, queryUtility
 
 from bit.core.interfaces import IPlugin, IServices, IPluginExtender
+from bit.bot.common.interfaces import IIntelligent, IWebImages, IWebCSS, IWebJS, IWebHTML, IWebJPlates, IFlatten, IAgents, ISubscriptions
 
 class SocketsPlugin(object):
     implements(IPluginExtender)

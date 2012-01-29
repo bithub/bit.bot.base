@@ -57,6 +57,6 @@ class BitBot(BotPlugin):
         provideAdapter(ServicesFlattener,[IServices,],IFlatten)      
   
 
-        provideAdapter(SocketsPlugin,[IPlugin,],IPluginExtender)        
-        provideAdapter(AgentsPlugin,[IPlugin,],IPluginExtender)        
-        provideAdapter(HandlersPlugin,[IPlugin,],IPluginExtender)        
+        provideAdapter(SocketsPlugin,[IPlugin,],IPluginExtender,'sockets')        
+        provideAdapter(AgentsPlugin,[IPlugin,],IPluginExtender,'agents')        
+        provideAdapter(HandlersPlugin,[IPlugin,],IPluginExtender,'handlers')        
