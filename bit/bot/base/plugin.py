@@ -2,7 +2,7 @@
 import os
 import inspect
 from zope.interface import implements
-from zope.component import getUtility, provideUtility, provideHandler,provideAdapter
+from zope.component import getUtility, provideUtility, provideHandler,provideAdapter, queryUtility
 
 # this is necessary to activate the event architecture
 import zope.component.event
@@ -23,6 +23,7 @@ from bit.bot.base.handlers import  rubbish_collection
 from bit.bot.base.agent import AgentRubbish, Agents, AgentsFlattener
 from bit.bot.base.services import ServicesFlattener, Services
 
+from bit.bot.common.interfaces import IHTTPRoot
 
 class BotPlugin(BitPlugin):
     implements(IPlugin)
@@ -43,48 +44,14 @@ class BotPlugin(BitPlugin):
             provideHandler(handler)
 
     def load_HTTP(self):
-        # need to push this to bit.bot.http
-        try:
-            from bit.bot.web.folder import BotFolder
-        except:
-            return
-
-        resource_types = {'images':dict(iface=IWebImages
-                                        ,ext=['png','jpg','jpeg','gif'])
-                          ,'js':dict(iface=IWebJS
-                                     ,ext=['js'])
-                          ,'css':dict(iface=IWebCSS
-                                      ,ext=['css'])
-                          ,'jplates':dict(iface=IWebJPlates
-                                             ,ext=['html'])
-                          ,'html':dict(iface=IWebHTML
-                                       ,ext=['html'])
-                          }
-
         fpath =  os.path.dirname(inspect.getfile(self.__class__))
         for hid,http in self._http.items():
             if hid == 'root':
                 target = os.path.join(fpath,http)
-                for rtype in resource_types:
-                    if rtype in os.listdir(target):
-                        resource = getUtility(resource_types[rtype]['iface'])
-                        dir_target = os.path.join(target,rtype)
-                        self._add_http_resources(resource,resource_types,rtype,dir_target)
-                        for subf in os.listdir(dir_target):
-                            if os.path.isdir(os.path.join(dir_target,subf)):
-                                if not subf in resource.children:
-                                    resource.putChild(subf,BotFolder())
-                                subresource = resource.children[subf]
-                                self._add_http_resources(subresource, resource_types,rtype, os.path.join(dir_target,subf)) 
-
-    def _add_http_resources(self,resource,resource_types,rtype,dir_target):
-        for f in os.listdir(dir_target):
-            if os.path.isdir(os.path.join(dir_target,f)): continue
-            for ext in resource_types[rtype]['ext']:
-                if f.endswith('.%s'%ext):
-                    file_path = os.path.join(dir_target,f)
-                    print 'adding base %s: %s' %(rtype,file_path)
-                    resource.putChild(f,static.File(file_path))
+                for rtype in os.listdir(target):
+                    resource = queryUtility(IHTTPRoot,rtype)
+                    if not resource: continue
+                    resource.add_resources(os.path.join(target,rtype))
 
             
     
