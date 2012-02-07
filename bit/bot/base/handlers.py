@@ -5,6 +5,7 @@ from zope.component import adapter,getUtility
 from bit.bot.common.interfaces import ISessions
 from bit.bot.base.agent import RubbishCollectionEvent
 
+
 @adapter(RubbishCollectionEvent)
 def rubbish_collection(evt):
     # expire old sessions
