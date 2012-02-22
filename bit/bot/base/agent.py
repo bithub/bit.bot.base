@@ -2,7 +2,7 @@
 import json
 import time
 
-from zope.interface import implements
+from zope.interface import implements, implementer
 from zope.event import notify
 from zope.component import adapter, getUtility
 
@@ -10,7 +10,7 @@ from twisted.application.internet import TimerService
 from twisted.internet import defer
 from twisted.application.service import IServiceCollection
 
-from bit.core.interfaces import IServices
+from bit.core.interfaces import IServices, IApplication
 from bit.bot.common.interfaces import  IFlatten, IBotAgent, ISubscriptions, IAgents
 from bit.bot.base.flat import Flattener
 
@@ -104,3 +104,9 @@ class AgentsFlattener(Flattener):
             _agents[service] = agent
         return defer.maybeDeferred(lambda: _agents)
 
+
+@implementer(IAgents)
+def botAgents():
+    return IAgents(getUtility(IApplication))
+
+        

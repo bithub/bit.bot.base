@@ -18,6 +18,5 @@ class Subscriptions(object):
     def subscriptions(self):
         return self._subscriptions
 
-
-    
+subscriptions = Subscriptions()    
     

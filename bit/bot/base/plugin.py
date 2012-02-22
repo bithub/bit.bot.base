@@ -37,26 +37,3 @@ class BotPlugin(BitPlugin):
     _agents = {}
     _utils = []
 
-class BitBot(BotPlugin):
-    implements(IPlugin)
-    _handlers = [rubbish_collection,]
-    _agents = { 'rubbish': (AgentRubbish, 5) }
-
-    _services = {}
-    name = 'bit.bot.base'
-
-    def load_utils(self):
-        provideUtility(Subscriptions(),ISubscriptions)
-        provideUtility(IAgents(self),IAgents)
-
-    def load_adapters(self):
-        provideAdapter(Agents,[IPlugin,],IAgents)       
-        provideAdapter(AgentsFlattener,[IAgents,],IFlatten)        
-
-        provideAdapter(Services,[IServiceCollection,],IServices)       
-        provideAdapter(ServicesFlattener,[IServices,],IFlatten)      
-  
-
-        provideAdapter(SocketsPlugin,[IPlugin,],IPluginExtender,'sockets')        
-        provideAdapter(AgentsPlugin,[IPlugin,],IPluginExtender,'agents')        
-        provideAdapter(HandlersPlugin,[IPlugin,],IPluginExtender,'handlers')        

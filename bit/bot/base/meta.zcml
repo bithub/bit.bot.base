@@ -1,0 +1,21 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:meta="http://namespaces.zope.org/meta">
+  <meta:directives namespace="http://namespaces.zope.org/zope">
+    <meta:directive
+        name="service"
+        schema=".zcml.IServiceDirective"
+        handler=".zcml.service"
+        />
+    <meta:directive
+        name="bot"
+        schema=".zcml.IBotDirective"
+        handler=".zcml.bot"
+        />
+    <meta:directive
+        name="plugin"
+        schema=".zcml.IPluginDirective"
+        handler=".zcml.plugin"
+        />
+  </meta:directives>
+</configure>

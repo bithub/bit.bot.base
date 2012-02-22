@@ -1,0 +1,47 @@
+<configure 
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="bit.bot.base">
+  <include package="bit.core" />
+  <adapter
+      factory=".agent.Agents"
+      for="bit.core.interfaces.IApplication"
+      />
+  <adapter
+      factory=".agent.AgentsFlattener"
+      for="bit.bot.common.interfaces.IAgents"
+      />
+  <adapter
+      factory=".services.Services"
+      for="twisted.application.service.IServiceCollection"
+      />
+  <adapter
+      factory=".services.ServicesFlattener"
+      for="bit.core.interfaces.IServices"
+      />
+  <adapter
+      factory=".extends.SocketsPlugin"
+      for="bit.core.interfaces.IPlugin"
+      />
+  <adapter
+      factory=".extends.SocketsPlugin"
+      for="bit.core.interfaces.IPlugin"
+      name="sockets"
+      />
+  <adapter
+      factory=".extends.AgentsPlugin"
+      for="bit.core.interfaces.IPlugin"
+      name="agents"
+      />
+  <adapter
+      factory=".extends.HandlersPlugin"
+      for="bit.core.interfaces.IPlugin"
+      name="handlers"
+      />
+  <utility
+      component=".subscriptions.subscriptions"
+      />  
+  <utility
+      factory=".agent.botAgents"
+      />  
+
+</configure>

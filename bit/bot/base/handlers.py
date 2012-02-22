@@ -9,7 +9,7 @@ from bit.bot.base.agent import RubbishCollectionEvent
 @adapter(RubbishCollectionEvent)
 def rubbish_collection(evt):
     # expire old sessions
-
+    print evt
     def _sessionDestroyed(result,sessionid):
         print 'removed session %s' %sessionid
 
