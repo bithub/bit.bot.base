@@ -5,6 +5,7 @@
   <adapter
       factory=".agent.Agents"
       for="bit.core.interfaces.IApplication"
+      provides="bit.bot.common.interfaces.IAgents"
       />
   <adapter
       factory=".agent.AgentsFlattener"
@@ -25,6 +26,7 @@
   <adapter
       factory=".extends.SocketsPlugin"
       for="bit.core.interfaces.IPlugin"
+
       name="sockets"
       />
   <adapter

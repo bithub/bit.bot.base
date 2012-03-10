@@ -80,7 +80,6 @@ class AgentsFlattener(Flattener):
     implements(IFlatten)
 
     def _flatten(self,name,agent):
-        import pdb; pdb.set_trace()
         klass = '%s.%s'%(agent.__module__, agent.__class__.__name__)                
         _agent = {}
         _agent['agents'] = []
@@ -107,6 +106,7 @@ class AgentsFlattener(Flattener):
 
 @implementer(IAgents)
 def botAgents():
-    return IAgents(getUtility(IApplication))
+    app = getUtility(IApplication)
+    return Agents(app)
 
         
