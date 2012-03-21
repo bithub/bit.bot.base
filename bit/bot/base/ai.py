@@ -6,6 +6,7 @@ from bit.core.interfaces import ISockets
 from bit.bot.xmpp.interfaces import IXMPPBotProtocol
 from bit.bot.aiml.interfaces import IAIMLMacro
 
+
 class BotAIMacro(object):
 
     implements(IAIMLMacro)
