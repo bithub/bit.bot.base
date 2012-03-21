@@ -1,9 +1,10 @@
 from zope.interface import implements
 from zope.component import getUtility
 
-from bit.bot.common.interfaces import ICurateBotProtocol, IAIMLMacro, IMUCBot
+from bit.bot.common.interfaces import IMUCBot
 from bit.core.interfaces import ISockets
-
+from bit.bot.xmpp.interfaces import IXMPPBotProtocol
+from bit.bot.aiml.interfaces import IAIMLMacro
 
 class BotAIMacro(object):
 
@@ -24,7 +25,7 @@ class BotAIMacro(object):
         sockets = getUtility(ISockets)
         resource = jid.split('/')[1]
 
-        proto = getUtility(ICurateBotProtocol)
+        proto = getUtility(IXMPPBotProtocol)
         self.ai.respond_async(jid, resp)
 
         if 'bot' in sockets.sockets and resource in sockets.sockets['bot']:
