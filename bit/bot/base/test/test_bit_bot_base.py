@@ -26,7 +26,7 @@ def runSnippet(snippet):
      %s
      </configure>"""
     xmlconfig(StringIO(template % snippet))
-    
+
 
 class BitBotBaseTestCase(unittest.TestCase):
 
@@ -37,7 +37,7 @@ class BitBotBaseTestCase(unittest.TestCase):
 
     def tearDown(self):
         if reactor.running:
-            self.app.stop()    
+            self.app.stop()
 
     def test_application(self):
         application = getUtility(IApplication)
@@ -51,11 +51,9 @@ class BitBotBaseTestCase(unittest.TestCase):
         runSnippet('''
    <service
       parent="bit.bot.base"
-      name="test-service"      
+      name="test-service"
       service="twisted.application.internet.TCPServer"
       port="bit.bot.base.test.example.getPort"
       factory="bit.bot.base.test.example.TestFactory"
        />''')
         self.failUnless('bit.bot.base' in getUtility(IServices).services)
-
-        

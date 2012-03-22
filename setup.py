@@ -17,13 +17,17 @@ setup(name='bit.bot.base',
       author_email='ryan@3ca.org.uk',
       url='http://code.3ca.org.uk',
       license='GPL',
-      packages=find_packages(exclude=['ez_setup']),
+      packages=find_packages(exclude=['ez_setup']) + ['twisted.plugins'],
+      package_data={'twisted.plugins': ['twisted/plugins/bitbot.py']},
       namespace_packages=['bit', 'bit.bot'],
       include_package_data=True,
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'zope.interface',
           'zope.configuration',
+          'zope.component',
+          'twisted',
       ],
       entry_points="""
       # -*- Entry points: -*-
