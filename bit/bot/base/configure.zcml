@@ -1,7 +1,9 @@
 <configure 
     xmlns="http://namespaces.zope.org/zope"
     i18n_domain="bit.bot.base">
+
   <include package="bit.core" />
+
   <adapter
       factory=".agent.Agents"
       for="bit.core.interfaces.IApplication"
@@ -26,7 +28,6 @@
   <adapter
       factory=".extends.SocketsPlugin"
       for="bit.core.interfaces.IPlugin"
-
       name="sockets"
       />
   <adapter
