@@ -1,13 +1,10 @@
-import os
-
-from zope.component import provideUtility
 import zope.component.event
 zope.component.event
 
 from twisted.python import usage
 
 from bit.core.configuration import ConfigurationLoader
-from bit.core.interfaces import IConfiguration, IApplicationRunner
+from bit.core.interfaces import IApplicationRunner
 
 
 class Options(usage.Options):
