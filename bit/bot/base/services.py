@@ -51,7 +51,8 @@ class Services(object):
     _services = []
 
     def add(self, name, services):
-        log.err('bit.bot.base.services: Services.add %s, %s' % (name, services))
+        log.msg(
+            'bit.bot.base.services: Services.add %s, %s' % (name, services))
         if not isinstance(services, dict):
             services.setName(name)
             services.setServiceParent(self.collect)
