@@ -1,5 +1,6 @@
 from zope.interface import implements
 
+from twisted.python import log
 from twisted.application.service import IServiceCollection, MultiService
 from twisted.internet import defer
 
@@ -50,11 +51,11 @@ class Services(object):
     _services = []
 
     def add(self, name, services):
+        log.err('bit.bot.base.services: Services.add %s, %s' % (name, services))
         if not isinstance(services, dict):
             services.setName(name)
             services.setServiceParent(self.collect)
             self._services.append(name)
-            print 'adding service %s' % name
             services.startService()
             return
 
@@ -66,12 +67,10 @@ class Services(object):
         else:
             plug_services = MultiService()
             plug_services.setName(name)
-            print 'adding multi-service %s' % name
             self._multi.append(name)
         for sid, s in services.items():
             s.setName(sid)
             s.setServiceParent(plug_services)
-            print 'adding sub service %s' % sid
         if add:
             plug_services.setServiceParent(self.collect)
             plug_services.startService()

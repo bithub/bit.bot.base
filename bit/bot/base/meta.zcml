@@ -8,11 +8,6 @@
         handler=".zcml.service"
         />
     <meta:directive
-        name="bot"
-        schema=".zcml.IBotDirective"
-        handler=".zcml.bot"
-        />
-    <meta:directive
         name="plugin"
         schema=".zcml.IPluginDirective"
         handler=".zcml.plugin"

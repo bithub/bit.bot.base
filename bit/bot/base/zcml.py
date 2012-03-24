@@ -65,39 +65,6 @@ def service(_context, parent, name, service, port, factory, context=None):
         )
 
 
-class IBotDirective(zope.interface.Interface):
-    """
-    Define a bot
-    """
-
-    name = zope.schema.TextLine(
-        title=_("Name"),
-        description=_("The bot name"),
-        required=True,
-        )
-    parent = zope.schema.TextLine(
-        title=_("Name"),
-        description=_("The service parent"),
-        required=True,
-        )
-    factory = zope.configuration.fields.GlobalObject(
-        title=_("Bot factory"),
-        description=_("The bot factory"),
-        required=True,
-        )
-
-
-def bot(_context, parent, name, factory):
-
-    services = zope.component.getUtility(bit.core.interfaces.IServices)
-    _bots = {name: factory()}
-    _context.action(
-        discriminator=None,
-        callable=services.add,
-        args=(parent, _bots)
-        )
-
-
 class IPluginDirective(zope.interface.Interface):
     """
     Define a plugin
