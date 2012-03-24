@@ -32,7 +32,6 @@ zcml_template = """\
 def plugin(_context, package):
     meta_path = os.path.join(package.__path__[0], 'meta.zcml')
 
-
     def _xmlconfig(config):
         config.seek(0)
         return xmlconfig(config)

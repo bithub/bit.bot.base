@@ -46,7 +46,6 @@ class SessionCommand(object):
         return d
 
 
-
 class Commands(object):
 
     def __init__(self, request):
