@@ -7,62 +7,7 @@ from zope.configuration.xmlconfig import xmlconfig
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('bit.core')
 
-
-class IServiceDirective(zope.interface.Interface):
-    """
-    Define a service
-    """
-
-    name = zope.schema.TextLine(
-        title=_("Name"),
-        description=_("The service name"),
-        required=True,
-        )
-
-    parent = zope.schema.TextLine(
-        title=_("Name"),
-        description=_("The service parent"),
-        required=True,
-        )
-
-    service = zope.configuration.fields.GlobalObject(
-        title=_("Service"),
-        description=_("The service"),
-        required=True,
-        )
-
-    port = zope.configuration.fields.GlobalObject(
-        title=_("Port"),
-        description=_("The service port"),
-        required=True,
-        )
-
-    factory = zope.configuration.fields.GlobalObject(
-        title=_("Service factory"),
-        description=_("The service factory"),
-        required=True,
-        )
-
-    context = zope.configuration.fields.GlobalObject(
-        title=_("Service context"),
-        description=_("The service context"),
-        required=False,
-        )
-
-
-def service(_context, parent, name, service, port, factory, context=None):
-    services = zope.component.getUtility(bit.core.interfaces.IServices)
-    _services = {}
-
-    if context:
-        _services[name] = service(port(), factory(), context())
-    else:
-        _services[name] = service(port(), factory())
-    _context.action(
-        discriminator=None,
-        callable=services.add,
-        args=(parent, _services)
-        )
+from bit.bot.common.interfaces import ISocketRequest
 
 
 class IPluginDirective(zope.interface.Interface):
@@ -86,6 +31,7 @@ zcml_template = """\
 
 def plugin(_context, package):
     meta_path = os.path.join(package.__path__[0], 'meta.zcml')
+
 
     def _xmlconfig(config):
         config.seek(0)
@@ -112,3 +58,44 @@ def plugin(_context, package):
             callable=_xmlconfig,
             args=(conf,)
             )
+
+
+def command(_context, name, factory, for_=ISocketRequest):
+    _context.action(
+        discriminator=None,
+        callable=zope.component.provideAdapter,
+        args=(factory, [for_], bit.core.interfaces.ICommand, name),
+        )
+
+
+class ISubscribeDirective(zope.interface.Interface):
+    """
+    Define a subscribe
+    """
+
+    name = zope.schema.TextLine(
+        title=_("Name"),
+        description=_("The subscribe name"),
+        required=True,
+        )
+
+    factory = zope.configuration.fields.GlobalObject(
+        title=_("Subscribe factory"),
+        description=_("The subscribe factory"),
+        required=True,
+        )
+
+    for_ = zope.configuration.fields.GlobalInterface(
+        title=_("Subscribe socket interface"),
+        description=_("The socket interface that I provide subscribes for"),
+        required=False,
+        missing_value=ISocketRequest,
+        )
+
+
+def subscribe(_context, name, factory, for_=ISocketRequest):
+    _context.action(
+        discriminator=None,
+        callable=zope.component.provideAdapter,
+        args=(factory, [for_], bit.bot.common.interfaces.ISubscribe, name),
+        )

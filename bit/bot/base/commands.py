@@ -3,7 +3,7 @@ from zope.component import getAdapters, queryAdapter
 from twisted.python import log
 from twisted.internet import reactor, defer
 
-from bit.bot.common.interfaces import ICommand
+from bit.core.interfaces import ICommand
 
 
 class TestCommand(object):
@@ -24,6 +24,27 @@ class TestCommand(object):
         self.request.speak('test started')
         reactor.callLater(10, _test)
         return d
+
+
+class SessionCommand(object):
+    """
+    A simple test command
+    """
+    def __init__(self, request):
+        self.request = request
+
+    def load(self, user, args):
+
+        d = defer.Deferred()
+
+        def _test():
+            self.request.speak('test complete')
+            d.callback('TEST FINISHED!')
+            return 'tota'
+        self.request.speak('test started')
+        reactor.callLater(10, _test)
+        return d
+
 
 
 class Commands(object):

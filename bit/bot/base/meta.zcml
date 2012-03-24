@@ -1,16 +1,19 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:meta="http://namespaces.zope.org/meta">
+    
+  <include package="bit.core" file="meta.zcml" />
+
   <meta:directives namespace="http://namespaces.zope.org/zope">
-    <meta:directive
-        name="service"
-        schema=".zcml.IServiceDirective"
-        handler=".zcml.service"
-        />
     <meta:directive
         name="plugin"
         schema=".zcml.IPluginDirective"
         handler=".zcml.plugin"
+        />
+    <meta:directive
+        name="subscribe"
+        schema=".zcml.ISubscribeDirective"
+        handler=".zcml.subscribe"
         />
   </meta:directives>
 </configure>

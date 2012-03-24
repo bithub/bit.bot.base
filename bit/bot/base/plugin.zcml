@@ -1,4 +1,19 @@
 <configure
     xmlns="http://namespaces.zope.org/zope">
 
+  <command
+      factory=".commands.Commands"
+      name="help"
+      />
+
+  <command
+      factory=".commands.SessionCommand"
+      name="session"
+      />
+
+  <subscribe
+      factory=".subscribe.TestSubscribe"
+      name="test"
+      />
+
 </configure>

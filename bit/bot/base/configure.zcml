@@ -51,22 +51,8 @@
   <adapter
       factory=".commands.Commands"
       for="bit.bot.common.interfaces.ISocketRequest"
-      provides="bit.bot.common.interfaces.ICommand"
+      provides="bit.core.interfaces.ICommand"
       />
-
-  <adapter
-      factory=".commands.Commands"
-      for="bit.bot.common.interfaces.ISocketRequest"
-      provides="bit.bot.common.interfaces.ICommand"
-      name="help"
-      />
-
-  <adapter
-      factory=".commands.TestCommand"
-      for="bit.bot.common.interfaces.ISocketRequest"
-      provides="bit.bot.common.interfaces.ICommand"
-      name="test"
-      /> 
 
   <adapter
       factory=".subscribe.TestSubscribe"
@@ -87,6 +73,5 @@
       provides="bit.bot.common.interfaces.ISubscribe"
       name="help"
       />
-
 
 </configure>
