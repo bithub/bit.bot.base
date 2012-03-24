@@ -47,4 +47,46 @@
       factory=".agent.botAgents"
       />  
 
+
+  <adapter
+      factory=".commands.Commands"
+      for="bit.bot.common.interfaces.ISocketRequest"
+      provides="bit.bot.common.interfaces.ICommand"
+      />
+
+  <adapter
+      factory=".commands.Commands"
+      for="bit.bot.common.interfaces.ISocketRequest"
+      provides="bit.bot.common.interfaces.ICommand"
+      name="help"
+      />
+
+  <adapter
+      factory=".commands.TestCommand"
+      for="bit.bot.common.interfaces.ISocketRequest"
+      provides="bit.bot.common.interfaces.ICommand"
+      name="test"
+      /> 
+
+  <adapter
+      factory=".subscribe.TestSubscribe"
+      for="bit.bot.common.interfaces.ISocketRequest"
+      provides="bit.bot.common.interfaces.ISubscribe"
+      name="test"
+      /> 
+
+  <adapter
+      factory=".subscribe.Subscribes"
+      for="bit.bot.common.interfaces.ISocketRequest"
+      provides="bit.bot.common.interfaces.ISubscribe"
+      />
+
+  <adapter
+      factory=".subscribe.Subscribes"
+      for="bit.bot.common.interfaces.ISocketRequest"
+      provides="bit.bot.common.interfaces.ISubscribe"
+      name="help"
+      />
+
+
 </configure>
