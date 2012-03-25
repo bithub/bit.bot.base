@@ -3,7 +3,8 @@ zope.component.event
 
 from twisted.python import usage
 
-from bit.core.configuration import ConfigurationLoader
+from bit.core.configuration import FileConfigurationLoader,\
+    StringConfigurationLoader
 from bit.core.interfaces import IApplicationRunner
 
 
@@ -15,4 +16,10 @@ class Options(usage.Options):
 
 
 def makeService(config):
-    return IApplicationRunner(ConfigurationLoader(config).load()).service
+    return IApplicationRunner(
+        FileConfigurationLoader(config).load()).service
+
+
+def makeServiceFromString(config):
+    return IApplicationRunner(
+        StringConfigurationLoader(config).load()).service
