@@ -25,13 +25,6 @@
       factory=".agent.botAgents"
       />  
 
-
-  <adapter
-      factory=".commands.Commands"
-      for="bit.bot.common.interfaces.ISocketRequest"
-      provides="bit.core.interfaces.ICommand"
-      />
-
   <adapter
       factory=".subscribe.TestSubscribe"
       for="bit.bot.common.interfaces.ISocketRequest"
