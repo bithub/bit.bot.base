@@ -1,10 +1,8 @@
 from zope.interface import implements
 
-from twisted.python import log
-from twisted.application.service import IServiceCollection, MultiService
+from twisted.application.service import IServiceCollection
 from twisted.internet import defer
 
-from bit.core.interfaces import IServices
 from bit.bot.common.interfaces import IFlatten
 from bit.bot.base.flat import Flattener
 
@@ -37,4 +35,3 @@ class ServicesFlattener(Flattener):
         for name, service in services.items():
             _services[name] = self._flatten(name, service)
         return defer.maybeDeferred(lambda: _services)
-
