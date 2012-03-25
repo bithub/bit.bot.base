@@ -21,25 +21,7 @@
       factory=".services.ServicesFlattener"
       for="bit.core.interfaces.IServices"
       />
-  <adapter
-      factory=".extends.SocketsPlugin"
-      for="bit.core.interfaces.IPlugin"
-      />
-  <adapter
-      factory=".extends.SocketsPlugin"
-      for="bit.core.interfaces.IPlugin"
-      name="sockets"
-      />
-  <adapter
-      factory=".extends.AgentsPlugin"
-      for="bit.core.interfaces.IPlugin"
-      name="agents"
-      />
-  <adapter
-      factory=".extends.HandlersPlugin"
-      for="bit.core.interfaces.IPlugin"
-      name="handlers"
-      />
+
   <utility
       component=".subscriptions.subscriptions"
       />  
