@@ -14,10 +14,6 @@
       for="bit.bot.common.interfaces.IAgents"
       />
   <adapter
-      factory=".services.Services"
-      for="twisted.application.service.IServiceCollection"
-      />
-  <adapter
       factory=".services.ServicesFlattener"
       for="bit.core.interfaces.IServices"
       />
