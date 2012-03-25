@@ -6,8 +6,9 @@ version = '0.0.9'
 setup(name='bit.bot.base',
       version=version,
       description="Bit Bot",
-      long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+      long_description=open(
+        os.path.join('bit', 'bot', 'base', 'README.txt')).read() + "\n"
+      + open(os.path.join("docs", "HISTORY.txt")).read(),
       classifiers=[
         "Programming Language :: Python",
         "Topic :: Software Development :: Libraries :: Python Modules",
